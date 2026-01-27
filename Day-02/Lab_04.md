@@ -11,8 +11,10 @@
 
 ### Step 0: One-time setup
 Command:
+```
 sudo apt update  
-sudo apt install -y nginx  
+sudo apt install -y nginx
+```
 
 Reason:
 - We need a real service to debug
@@ -22,8 +24,11 @@ Reason:
 
 ### Step 1: Confirm normal working state
 Command:
-systemctl status nginx  
-curl localhost  
+
+```
+systemctl status nginx
+curl localhost
+```
 
 Expected:
 - nginx is active
@@ -36,8 +41,10 @@ Reason:
 
 ### Step 2: Create a real failure (simulate human mistake)
 Command:
+```
 sudo rm /etc/nginx/nginx.conf  
-sudo systemctl restart nginx  
+sudo systemctl restart nginx
+```
 
 Reason:
 - Config deletion or typo is a common production error
@@ -47,7 +54,7 @@ Reason:
 
 ### Step 3: Check service status (symptom)
 Command:
-systemctl status nginx  
+`systemctl status nginx` 
 
 Observation:
 - Service is in **failed** state
@@ -58,8 +65,7 @@ Reason:
 ---
 
 ### Step 4: Check logs (MOST IMPORTANT)
-Command:
-sudo journalctl -u nginx -n 50  
+Command: `sudo journalctl -u nginx -n 50`  
 
 Observation:
 - Error indicates missing `nginx.conf`
@@ -71,8 +77,7 @@ Reason:
 ---
 
 ### Step 5: Fix the real cause
-Command:
-sudo apt reinstall nginx  
+Command: `sudo apt reinstall nginx`  
 
 Reason:
 - Restore missing configuration
@@ -82,9 +87,11 @@ Reason:
 
 ### Step 6: Restart and verify
 Command:
+```
 sudo systemctl restart nginx  
 systemctl status nginx  
-curl localhost  
+curl localhost
+```
 
 Expected:
 - Service active
@@ -101,7 +108,7 @@ Expected:
 ---
 
 ### DevOps Debug Flow
-Status → Logs → Root Cause → Fix → Restart → Verify
+`Status → Logs → Root Cause → Fix → Restart → Verify`
 
 ---
 
