@@ -1,4 +1,4 @@
-## Day-02 | Lab-03: Linux Processes & Process States (CPU Spike – Proper Flow)
+### Lab-03: Linux Processes & Process States (CPU Spike – Proper Flow)
 
 ## Scenario
 Server is initially healthy  

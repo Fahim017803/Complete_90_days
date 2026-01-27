@@ -1,4 +1,4 @@
-## Day-02 | Lab-04: Log-based Debugging with journalctl (nginx)
+## Lab-04: Log-based Debugging with journalctl (nginx)
 
 ### Scenario
 - Service shows **failed**
