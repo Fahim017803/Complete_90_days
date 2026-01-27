@@ -1,4 +1,4 @@
-## Day-02 | Lab-05: Disk Full Incident Debugging (Real DevOps Case)
+## Lab-05: Disk Full Incident Debugging (Real DevOps Case)
 
 ### Scenario
 - Server is running
