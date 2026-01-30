@@ -28,7 +28,7 @@ Command: `top`
 
 ## 3. Service Checks
 
-I inspected the **ssh** service because it is commonly used on servers.
+I inspected the **ssh** service becausae it is commonly used on servers.
 
 ### Checking ssh service status
 Command: `systemctl status ssh**`
