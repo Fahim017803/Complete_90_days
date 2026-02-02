@@ -7,8 +7,8 @@ These labs simulate production-style failures to build real troubleshooting conf
 # Scenario 1 — Nginx Not Running After Reboot
 
 ## Create the Problem
-sudo systemctl disable nginx  
-sudo systemctl stop nginx  
+sudo systemctl disable nginx  (not immidiate stop, but after rebbot it will not run)
+sudo systemctl stop nginx  (Immidiate stop but after reboot it will run again)
 
 This simulates a server reboot where nginx does not start.
 
