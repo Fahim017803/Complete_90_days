@@ -19,7 +19,6 @@ Group → shared access layer for users
 - Owner can modify permissions and transfer ownership.
 - Group members get access based on assigned permissions.
 
-📸 Screenshot
 
 ---
 
