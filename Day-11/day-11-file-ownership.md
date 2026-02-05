@@ -47,7 +47,7 @@ Verify:
 
 `ls -l devops-file.txt`
 
-📸 Screenshot
+![alt text](image-1.png)
 
 ---
 
@@ -73,7 +73,7 @@ Verify:
 
 `ls -l team-notes.txt`
 
-📸 Screenshot
+![alt text](image-1.png)
 
 ---
 
@@ -104,7 +104,7 @@ Verify:
 `ls -l project-config.yaml`  
 `ls -ld app-logs`
 
-📸 Screenshot
+![alt text](image-2.png)
 
 ---
 
@@ -132,8 +132,7 @@ Verify:
 
 `ls -lR heist-project`
 
-📸 Screenshot
-
+![alt text](<Screenshot 2026-02-06 at 2.48.34 am.png>)
 ---
 
 ## Task 6 — Practice Challenge
@@ -166,8 +165,7 @@ Assign ownership:
 Verify:
 
 `ls -l bank-heist`
-
-📸 Screenshot
+![alt text](<Screenshot 2026-02-06 at 3.01.41 am.png>)
 
 ---
 
