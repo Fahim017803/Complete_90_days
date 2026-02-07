@@ -61,7 +61,7 @@ top
 
 ## Step 9️⃣ Optional secondary check (Memory)
 free -h
-ps aux --sort=-%mem | head
+htop
 - Reason: Confirm no memory pressure remains.
 
 ## Key Learnings
