@@ -60,8 +60,8 @@ top
 - Verification is mandatory.
 
 ## Step 9️⃣ Optional secondary check (Memory)
-free -h
-htop
+- free -h
+- htop
 - Reason: Confirm no memory pressure remains.
 
 ## Key Learnings
