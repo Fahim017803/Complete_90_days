@@ -40,7 +40,7 @@ Command: `systemctl status ssh**`
 ---
 
 ### 4. Listing active services
-Command: `systemctl list-units --type=service --state=running`
+Command: `systemctl --type=service --state=running`
 
 **Observation:**
 - Displays all running system services
