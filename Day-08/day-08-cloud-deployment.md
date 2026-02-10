@@ -80,7 +80,7 @@ http://<public-ip>:8080
 ## Challenges Faced
 
 **Issue:**  
-The Nginx webpage was not accessible initially.
+The Nginx webpage was ––––not accessible initially.
 
 **Cause:**  
 Port 80 was blocked by the security group.

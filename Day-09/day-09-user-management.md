@@ -99,7 +99,7 @@ cat /etc/group
 sudo usermod -aG developers tokyo
 sudo usermod -aG developers,admins berlin
 sudo usermod -aG admins professor
-sudo usermod -aG project-team nairobi
+sudo usermod -aG project-team nairobi![alt text](image.png)
 sudo usermod -aG project-team tokyo
 ```
 
