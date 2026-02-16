@@ -201,14 +201,6 @@ main
 ```
 ![alt text](image-4.png)
 
-### Example Output
-```
-==================================
-SYSTEM INFO
-==================================
-Hostname: ip-172-31-10-20
-OS: GNU/Linux
-```
 
 Clean and structured output improves readability and operational clarity.
 
