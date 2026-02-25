@@ -198,3 +198,20 @@ Revert = Add opposite commit
 Restore = Discard changes  
 Clean = Delete untracked files  
 Stash = Temporary shelf  
+
+## Direct Answers (Task Compliance)
+
+Should you use reset on pushed commits?
+No. It rewrites history and breaks collaborators.
+
+Is reverted commit still visible?
+Yes. Revert creates a new commit that negates changes but keeps history intact.
+
+Which reset is destructive?
+--hard, because it deletes working directory changes.
+
+Startup strategy?
+GitHub Flow.
+
+Large team with scheduled releases?
+GitFlow.
