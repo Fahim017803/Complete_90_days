@@ -1,97 +1,85 @@
 #!/bin/bash
 
-# ==========================================
-# Log Analyzer Script
-# Purpose:
-#   1. Validate input log file
-#   2. Count errors
-#   3. Extract critical events
-#   4. Show top 5 error messages
-#   5. Generate report file
-#   6. Archive processed log
-# ==========================================
+# =====================================
+# Log Analyzer & Report Generator
+# =====================================
 
 
-# ---------- 1️⃣ Input Validation ----------
+# =========================
+# Task 1: Input & Validation
+# =========================
 
-# Check: Did user pass a file path?
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 <log_file_path>"
+if [ "$#" -ne 1 ]; then
+    echo "Error: Please provide a log file path."
+    echo "Usage: $0 <log_file>"
     exit 1
 fi
 
-LOG_FILE="$1"
+FILE="$1"
 
-# Check: Does file exist?
-if [ ! -f "$LOG_FILE" ]; then
-    echo "Error: File '$LOG_FILE' does not exist."
+if [ ! -f "$FILE" ]; then
+    echo "Error: File '$FILE' does not exist."
     exit 1
 fi
 
 
-# ---------- 2️⃣ Basic Information ----------
+# =========================
+# Task 2: Error Count
+# =========================
 
-# Get today's date (for report filename)
-DATE=$(date +%Y-%m-%d)
-
-# Report file name
-REPORT_FILE="log_report_${DATE}.txt"
-
-# Count total lines in log file
-TOTAL_LINES=$(wc -l < "$LOG_FILE")
-
-
-# ---------- 3️⃣ Count Errors ----------
-
-# Count lines that contain ERROR or Failed (case-insensitive)
-ERROR_COUNT=$(grep -Ei "ERROR|Failed" "$LOG_FILE" | wc -l)
+ERROR_COUNT=$(grep -Ei "ERROR|Failed" "$FILE" | wc -l)
 
 echo "Total ERROR/Failed count: $ERROR_COUNT"
 
 
-# ---------- 4️⃣ Find Critical Events ----------
-
-# Show CRITICAL lines with line numbers
-CRITICAL_EVENTS=$(grep -n "CRITICAL" "$LOG_FILE")
+# =========================
+# Task 3: Critical Events
+# =========================
 
 echo ""
 echo "--- Critical Events ---"
-echo "$CRITICAL_EVENTS"
+
+CRITICAL_EVENTS=$(grep -n "CRITICAL" "$FILE")
+
+# Format output like example:
+echo "$CRITICAL_EVENTS" | while IFS=: read -r line content
+do
+    echo "Line $line: $content"
+done
 
 
-# ---------- 5️⃣ Top 5 Error Messages ----------
+# =========================
+# Task 4: Top 5 Error Messages
+# =========================
 
-# Steps:
-#   1. Get lines with ERROR
-#   2. Remove first 3 columns (usually timestamp)
-#   3. Clean leading spaces
-#   4. Sort
-#   5. Count duplicates
-#   6. Sort by highest count
-#   7. Show top 5
+echo ""
+echo "--- Top 5 Error Messages ---"
 
-TOP_ERRORS=$(grep "ERROR" "$LOG_FILE" \
-    | awk '{$1=$2=$3=""; print $0}' \
+TOP_ERRORS=$(grep "ERROR" "$FILE" \
+    | awk '{$1=$2=$3=""; print}' \
     | sed 's/^ *//' \
     | sort \
     | uniq -c \
     | sort -rn \
     | head -5)
 
-echo ""
-echo "--- Top 5 Error Messages ---"
 echo "$TOP_ERRORS"
 
 
-# ---------- 6️⃣ Generate Report File ----------
+# =========================
+# Task 5: Summary Report
+# =========================
 
-# Redirect structured output into report file
+DATE=$(date +%Y-%m-%d)
+REPORT="log_report_${DATE}.txt"
+TOTAL_LINES=$(wc -l < "$FILE")
+
 {
-echo "========================================="
+echo "================================="
 echo "Log Analysis Report"
-echo "Date: $DATE"
-echo "Log File: $LOG_FILE"
-echo "========================================="
+echo "Date of Analysis: $DATE"
+echo "Log File: $FILE"
+echo "================================="
 echo ""
 echo "Total Lines Processed: $TOTAL_LINES"
 echo "Total ERROR/Failed Count: $ERROR_COUNT"
@@ -100,24 +88,25 @@ echo "----- Top 5 Error Messages -----"
 echo "$TOP_ERRORS"
 echo ""
 echo "----- Critical Events -----"
-echo "$CRITICAL_EVENTS"
+echo "$CRITICAL_EVENTS" | while IFS=: read -r line content
+do
+    echo "Line $line: $content"
+done
 echo ""
-} > "$REPORT_FILE"
+} > "$REPORT"
 
 echo ""
-echo "Report generated: $REPORT_FILE"
+echo "Report generated: $REPORT"
 
 
-# ---------- 7️⃣ Archive Processed Log ----------
+# =========================
+# Task 6: Archive Processed Log (Optional)
+# =========================
 
-ARCHIVE_DIR="archive"
+mkdir -p archive
+mv "$FILE" archive/
 
-# Create archive folder if not exists
-if [ ! -d "$ARCHIVE_DIR" ]; then
-    mkdir "$ARCHIVE_DIR"
-fi
+echo "Log file moved to archive/"
 
-# Move log file to archive folder
-mv "$LOG_FILE" "$ARCHIVE_DIR/"
 
-echo "Log file moved to $ARCHIVE_DIR/"
+/Users/fahim/Desktop/Screenshot 2026-02-23 at 9.13.14 am.png
