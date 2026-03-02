@@ -57,7 +57,7 @@ Hello-world:
 docker run -d -p 8080:80 --name mynginx nginx
 docker ps
 sudo ufw status
-sudo enable ufw
+sudo ufw enable 
 ```
 
 ```bash
