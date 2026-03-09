@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fahim DevOps Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121a31;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #e5ecff;
+      --muted: #9aa8d6;
+      --accent: #60a5fa;
+      --accent-2: #34d399;
+      --accent-3: #a78bfa;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(167,139,250,0.14), transparent 22%),
+        radial-gradient(circle at bottom center, rgba(52,211,153,0.12), transparent 30%),
+        linear-gradient(180deg, #0b1020 0%, #0a0f1d 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(11,16,32,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #08101e;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      color: var(--muted);
+      font-weight: 500;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 92px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: #c7d6ff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 18px var(--accent-2);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+      max-width: 12ch;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 20px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #07101c;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-2px);
+    }
+
+    .hero-points {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: #c5d4ff;
+      font-size: 14px;
+    }
+
+    .hero-points span {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -30% auto auto -20%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(96,165,250,0.35), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -15% -20% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(52,211,153,0.22), transparent 68%);
+      pointer-events: none;
+    }
+
+    .terminal {
+      position: relative;
+      z-index: 1;
+      background: rgba(6,10,20,0.78);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .terminal-top span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .terminal-top span:nth-child(1) { background: #fb7185; }
+    .terminal-top span:nth-child(2) { background: #facc15; }
+    .terminal-top span:nth-child(3) { background: #4ade80; }
+
+    .code {
+      color: #d8e2ff;
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 36px 0 72px;
+    }
+
+    .section-head {
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .section-head .kicker {
+      color: #99b8ff;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .section-head h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: 0.28s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(52,211,153,0.2));
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 22px;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 26px 18px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat .num {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #d7e3ff, #8ec5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .tool {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #d7e5ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 16px;
+    }
+
+    .step {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #08101c;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+    }
+
+    .step h3 {
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .quote {
+      max-width: 820px;
+      margin: 18px auto 0;
+      text-align: center;
+      padding: 28px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .quote p {
+      font-size: 18px;
+      color: #d8e4ff;
+      margin-bottom: 10px;
+    }
+
+    .quote strong {
+      color: #9cd4ff;
+    }
+
+    .faq {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-item h3 {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .faq-item p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .cta {
+      padding: 20px 0 80px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(52,211,153,0.14), rgba(167,139,250,0.14));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 30px;
+      padding: 34px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0 auto 22px;
+    }
+
+    footer {
+      padding: 26px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-3,
+      .stats,
+      .journey {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        flex-direction: column;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+
+      h1 {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <div class="brand-badge">F</div>
+        <span>Fahim DevOps Lab</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#skills">Skills</a>
+        <a href="#tools">Tools</a>
+        <a href="#projects">Projects</a>
+        <a href="#journey">Journey</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">
+            <span class="dot"></span>
+            Running inside Docker + Nginx
+          </div>
+
+          <h1>
+            Building real
+            <span class="gradient-text">DevOps skills</span>
+            the right way.
+          </h1>
+
+          <p>
+            This site is a containerized DevOps portfolio page focused on Linux, Docker, cloud, automation, and hands-on learning. Not fake polish. Real fundamentals.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-secondary" href="#skills">Explore Skills</a>
+          </div>
+
+          <div class="hero-points">
+            <span>Dockerized Website</span>
+            <span>Linux Focused</span>
+            <span>Cloud Ready</span>
+            <span>Portfolio Style</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="terminal">
+            <div class="terminal-top">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="code">
+$ docker build -t fahim-devops:v1 .
+[+] Building complete
+
+$ docker run -d -p 8080:80 fahim-devops:v1
+container started successfully
+
+$ curl http://localhost:8080
+Fahim DevOps Lab is live
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Skills</span>
+          <h2>Core DevOps capabilities</h2>
+          <p>
+            Strong DevOps work is not about memorizing tools. It is about systems thinking, automation, debugging, and reliable execution.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🐧</div>
+            <h3>Linux</h3>
+            <p>Filesystem, permissions, process handling, networking basics, package management, shell usage, and practical server discipline.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🐳</div>
+            <h3>Docker</h3>
+            <p>Images, containers, Dockerfiles, layers, volumes, bind mounts, networking, port mapping, and container lifecycle fundamentals.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">☁️</div>
+            <h3>Cloud</h3>
+            <p>Cloud infrastructure basics with a focus on practical deployment mindset, VM usage, service hosting, and environment setup.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🌿</div>
+            <h3>Git</h3>
+            <p>Branching, merging, rebasing, clean history, collaboration flow, and discipline around change tracking and rollback thinking.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">⚙️</div>
+            <h3>Automation</h3>
+            <p>Bash scripting, repeatable tasks, reducing manual work, and building systems that are easier to run and debug.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📡</div>
+            <h3>Networking</h3>
+            <p>Ports, DNS basics, bridge networks, service communication, connectivity checks, and real debugging flow between systems.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Tools</span>
+          <h2>Tools I practice with</h2>
+          <p>
+            Tools matter, but weak fundamentals behind them are trash. The point is learning how and why they work.
+          </p>
+        </div>
+
+        <div class="tools">
+          <span class="tool">Docker</span>
+          <span class="tool">Nginx</span>
+          <span class="tool">Linux CLI</span>
+          <span class="tool">Git & GitHub</span>
+          <span class="tool">VS Code</span>
+          <span class="tool">AWS Basics</span>
+          <span class="tool">Bash</span>
+          <span class="tool">Networking</span>
+          <span class="tool">Containers</span>
+          <span class="tool">Automation</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Progress</span>
+          <h2>Learning metrics that matter</h2>
+          <p>These numbers are portfolio-style placeholders. Replace them with your real progress later.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="num">32+</div>
+            <div class="label">Hands-on Docker labs</div>
+          </div>
+          <div class="stat">
+            <div class="num">90</div>
+            <div class="label">Days of DevOps journey</div>
+          </div>
+          <div class="stat">
+            <div class="num">10+</div>
+            <div class="label">Linux scenarios practiced</div>
+          </div>
+          <div class="stat">
+            <div class="num">100%</div>
+            <div class="label">Built with container mindset</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Projects</span>
+          <h2>Projects built for real practice</h2>
+          <p>
+            Good DevOps projects prove workflow, debugging, and deployment thinking — not just screenshots.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🌐</div>
+            <h3>Containerized Website</h3>
+            <p>This site runs inside an Nginx container and demonstrates static site deployment through Docker build and run flow.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📦</div>
+            <h3>Docker Image Labs</h3>
+            <p>Practiced image creation, layers, history inspection, cleanup, and image customization through Dockerfile experiments.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🛠️</div>
+            <h3>Linux Automation Scripts</h3>
+            <p>Bash-based practice around repeatable operations, command flow, and system-level problem solving for daily admin tasks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Journey</span>
+          <h2>How I am building toward DevOps</h2>
+          <p>
+            Real improvement comes from progression: fundamentals first, then systems, then automation, then deployment.
+          </p>
+        </div>
+
+        <div class="journey">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h3>Foundation</h3>
+            <p>Linux commands, file systems, permissions, networking basics, Git workflows, and understanding how systems actually behave.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">2</div>
+            <h3>Containers</h3>
+            <p>Docker images, containers, layers, volumes, networking, and the difference between build-time and runtime behavior.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">3</div>
+            <h3>Deployment Mindset</h3>
+            <p>Taking projects from local machine to container, then toward cloud deployment, reproducibility, and better operational thinking.</p>
+          </article>
+        </div>
+
+        <div class="quote">
+          <p>
+            “The goal is not to look like a DevOps engineer. The goal is to think, debug, and build like one.”
+          </p>
+          <strong>— Fahim DevOps Lab</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">FAQ</span>
+          <h2>Useful questions</h2>
+          <p>Clear answers for what this project is and why it exists.</p>
+        </div>
+
+        <div class="faq">
+          <article class="faq-item">
+            <h3>What is this website for?</h3>
+            <p>This is a DevOps-style portfolio landing page meant to be served inside a Docker container using Nginx.</p>
+          </article>
+
+          <article class="faq-item">
+            <h3>Why use a static website for Docker practice?</h3>
+            <p>Because it removes unnecessary complexity. You focus on Dockerfile, image build, container run, port mapping, and deployment flow first.</p>
+          </article>
+
+          <article class="faq-item">
+            <h3>Can this be deployed to an EC2 instance later?</h3>
+            <p>Yes. Build the image, move it to the server, run the container, and expose the required port through the instance and security group.</p>
+          </article>
+
+          <article class="faq-item">
+            <h3>Can I edit this into a real portfolio?</h3>
+            <p>Yes. Replace placeholder stats, tools, and project descriptions with your actual DevOps work and GitHub links.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Built to run in a container. Built to show real progress.</h2>
+          <p>
+            Use this as your Docker + Nginx practice site now. Then improve it with volumes, custom networking, a reverse proxy, and cloud deployment later.
+          </p>
+          <a class="btn btn-primary" href="#skills">Start Building</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 Fahim DevOps Lab</div>
+      <div>Built with HTML + CSS • Served by Nginx • Run with Docker</div>
+    </div>
+  </footer>
+</body>
+</html>
