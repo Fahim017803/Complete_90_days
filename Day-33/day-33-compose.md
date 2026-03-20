@@ -101,6 +101,11 @@ docker compose up -d
 
 Site data remains → volume working.
 
+
+![alt text](image.png)
+![alt text](image-1.png)
+
+
 ---
 
 ## Task-4 — Compose Commands Practice
