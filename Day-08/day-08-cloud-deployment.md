@@ -1,4 +1,4 @@
-# Day 08 — Cloud Server Setup: Docker, Nginx & Web Deployment
+3244# Day 08 — Cloud Server Setup: Docker, Nginx & Web Deployment
 
 Today I deployed a real cloud server and hosted a live web server accessible from the internet. This hands-on exercise helped me understand practical server management and cloud infrastructure.
 
