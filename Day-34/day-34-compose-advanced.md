@@ -122,6 +122,7 @@ Learning:
 
 * Persistent database storage.
 * Internal container communication via private network.
+![alt text](image.png)
 
 ---
 
