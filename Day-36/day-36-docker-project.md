@@ -4,17 +4,22 @@
 
 ## Task 1 – Pick Your App
 
-I selected a **DevOps Notes Dashboard** full-stack application.
+I built a **DevOps Notes Dashboard** full-stack web application.
 
-This app allows users to create and delete operational notes from a web UI.
+This app allows users to:
 
-Reason for choosing:
+- create operational notes
+- delete notes
+- store notes in database
+- access via browser UI
 
-- Demonstrates real DevOps internal tooling use-case  
-- Requires frontend + backend + database architecture  
-- Shows reverse proxy networking  
-- Supports persistent storage  
-- Suitable for real deployment workflow practice  
+Reason:
+
+- Real internal DevOps tool simulation  
+- Requires frontend + backend + database  
+- Demonstrates reverse proxy architecture  
+- Shows persistent storage design  
+- Suitable for real deployment workflow  
 
 Architecture:
 
@@ -24,7 +29,81 @@ Browser → Nginx → Flask API → PostgreSQL → Docker Volume
 
 ## Task 2 – Write the Dockerfile
 
-Backend application was containerized using a lightweight image.
+### Backend Structure
+
+```
+backend/
+ ├── app.py
+ ├── db.py
+ ├── requirements.txt
+ └── Dockerfile
+```
+
+### app.py
+
+```python
+from flask import Flask,request,jsonify
+from db import get_conn
+
+app = Flask(__name__)
+
+@app.route("/notes",methods=["GET"])
+def get_notes():
+    conn=get_conn()
+    cur=conn.cursor()
+    cur.execute("select id,content from notes order by id desc")
+    rows=cur.fetchall()
+    cur.close()
+    conn.close()
+    return jsonify([{"id":r[0],"content":r[1]} for r in rows])
+
+@app.route("/notes",methods=["POST"])
+def add_note():
+    data=request.json
+    conn=get_conn()
+    cur=conn.cursor()
+    cur.execute("insert into notes(content) values(%s)",(data["content"],))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return jsonify({"msg":"ok"})
+
+@app.route("/notes/<int:id>",methods=["DELETE"])
+def delete_note(id):
+    conn=get_conn()
+    cur=conn.cursor()
+    cur.execute("delete from notes where id=%s",(id,))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return jsonify({"msg":"deleted"})
+
+if __name__=="__main__":
+    app.run(host="0.0.0.0",port=5000)
+```
+
+### db.py
+
+```python
+import psycopg2,os
+
+def get_conn():
+    return psycopg2.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        dbname=os.getenv("DB_NAME")
+    )
+```
+
+### requirements.txt
+
+```
+flask
+psycopg2-binary
+```
+
+### Dockerfile
 
 ```dockerfile
 FROM python:3.11-slim
@@ -51,10 +130,9 @@ __pycache__
 *.pyc
 .git
 .env
-*.log
 ```
 
-The image was built and tested locally using:
+Build test:
 
 ```
 docker build -t devops-notes .
@@ -65,7 +143,19 @@ docker run -p 5000:5000 devops-notes
 
 ## Task 3 – Add Docker Compose
 
-Multi-container system was created.
+### Project Structure
+
+```
+day-36/
+ ├── backend/
+ ├── frontend/
+ │    └── index.html
+ ├── nginx.conf
+ ├── docker-compose.yml
+ └── .env
+```
+
+### docker-compose.yml
 
 ```yaml
 services:
@@ -83,12 +173,11 @@ services:
       - notesnet
 
   backend:
-    image: fahim017803/devops-notes:v1
+    build: ./backend
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - notesnet
 
@@ -98,11 +187,6 @@ services:
       - .env
     volumes:
       - notesdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL","pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
     networks:
       - notesnet
 
@@ -113,7 +197,26 @@ networks:
   notesnet:
 ```
 
-Environment variables:
+### nginx.conf
+
+```
+server {
+
+ listen 80;
+
+ location / {
+   root /usr/share/nginx/html;
+   index index.html;
+ }
+
+ location /api/ {
+   proxy_pass http://backend:5000/;
+ }
+
+}
+```
+
+### .env
 
 ```
 DB_HOST=db
@@ -125,88 +228,57 @@ POSTGRES_DB=notesdb
 POSTGRES_PASSWORD=postgres
 ```
 
-System tested using:
+Run:
 
 ```
-docker compose up
+docker compose up --build
+```
+
+Access:
+
+```
+http://SERVER_IP:8080
 ```
 
 ---
 
 ## Task 4 – Ship It
 
-Image was tagged and pushed to Docker Hub.
+Image pushed to Docker Hub:
 
 ```
-docker tag devops-notes fahim017803/devops-notes:v1
+docker login
+docker build -t fahim017803/devops-notes:v1 backend/ #taking from github repo
 docker push fahim017803/devops-notes:v1
 ```
 
-Docker Hub Image:
-
-```
-fahim017803/devops-notes:v1
-```
-
-README created explaining:
-
-- project purpose  
-- how to run with docker compose  
-- required environment variables  
-
 ---
 
-## Task 5 – Test the Whole Flow
+## Task 5 – Test Whole Flow
 
-All local images and containers were removed.
-
-Fresh deployment tested using:
+All containers removed then tested:
 
 ```
-docker pull fahim017803/devops-notes:v1
+docker system prune -a
 docker compose up
 ```
 
-Application successfully ran on a new server using only compose configuration.
+System successfully rebuilt from project files.
+
+![alt text](image.png)
+---
+
+## Challenges
+
+- Database hostname issue → fixed using service name  
+- Reverse proxy routing → fixed nginx config  
+- Data loss → fixed docker volume  
+- Fresh deployment testing → validated portability  
 
 ---
 
-## Challenges Faced
+## Final Learning
 
-- Container networking issue (localhost vs service name)
-- Reverse proxy API routing configuration
-- Database data loss after restart
-- Correct Docker image publishing workflow
-- Fresh deployment validation
+This project demonstrated real DevOps workflow:
 
-Solutions included:
-
-- Using internal Docker network
-- Configuring Nginx proxy rules
-- Attaching named volume
-- Testing deployment on clean environment
-
----
-
-## Final Image Size
-
-Approx:
-
-```
-~140 MB
-```
-
----
-
-## Key Learning Outcome
-
-This task demonstrated real DevOps workflow:
-
-Build → Containerize → Push → Deploy → Run Anywhere
-
-It improved understanding of:
-
-- Docker image lifecycle  
-- multi-container orchestration  
-- reverse proxy architecture  
-- portable infrastructure setup  
+Build → Containerize → Orchestrate → Push → Deploy Anywhere
