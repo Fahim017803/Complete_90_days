@@ -265,7 +265,7 @@ docker compose up
 
 System successfully rebuilt from project files.
 
-![alt text](image.png)
+![alt text](image-1.png)
 ---
 
 ## Challenges
