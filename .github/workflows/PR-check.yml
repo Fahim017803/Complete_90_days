@@ -1,15 +1,17 @@
-name: Scheduled Job
+name: Manual Run
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
+    inputs:
+      environment:
+        description: "Enter environment"
+        required: true
+        default: staging
 
 jobs:
-  test:
+  manual-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Message
-        run: echo "Running daily at midnight UTC"
-        
+      - name: Print Input
+        run: echo "Environment: ${{ github.event.inputs.environment }}"
