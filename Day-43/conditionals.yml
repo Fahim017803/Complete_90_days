@@ -1,0 +1,37 @@
+name: Task 4 - Conditionals
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  conditional-steps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Only on Main
+        if: github.ref == 'refs/heads/main'
+        run: echo "✅ This is the main branch!"
+
+      - name: This Step Will Fail
+        run: exit 1
+
+      - name: Only on Failure
+        if: failure()
+        run: echo "❌ Previous step failed!"
+
+      - name: Continue Even if Error
+        continue-on-error: true
+        run: |
+          echo "⚠️ This might fail..."
+          exit 1
+
+      - name: This Still Runs
+        run: echo "✅ I still ran!"
+
+  only-on-push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Push Event Only
+        run: echo "🚀 Triggered by push!"
