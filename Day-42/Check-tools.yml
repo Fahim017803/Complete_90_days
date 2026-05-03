@@ -1,0 +1,39 @@
+name: Task 2 - Pre-installed Tools on Ubuntu
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check-tools:
+    name: Check Pre-installed Tools
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Tool Versions
+        run: |
+          echo "=========================================="
+          echo "  Checking Pre-installed Tools"
+          echo "=========================================="
+
+          echo ""
+          echo "🐳 Docker Version:"
+          docker --version
+
+          echo ""
+          echo "🐍 Python Version:"
+          python3 --version
+
+          echo ""
+          echo "🟢 Node Version:"
+          node --version
+
+          echo ""
+          echo "📦 Git Version:"
+          git --version
+
+          echo ""
+          echo "=========================================="
+          echo "  All tools checked successfully!"
+          echo "=========================================="

@@ -1,0 +1,43 @@
+name: Task 4 - Self-Hosted Runner Job
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  self-hosted-job:
+    name: Run on Self-Hosted Runner
+    runs-on: self-hosted
+
+    steps:
+      - name: Print Hostname
+        run: |
+          echo "=========================================="
+          echo "  Running on Self-Hosted Runner!"
+          echo "  Hostname    : $(hostname)"
+          echo "  Current User: $(whoami)"
+          echo "=========================================="
+
+      - name: Print Working Directory
+        run: |
+          echo ""
+          echo "📁 Working Directory:"
+          pwd
+          echo ""
+          echo "📋 Directory Contents:"
+          ls -la
+
+      - name: Create a File and Verify
+        run: |
+          echo ""
+          echo "📝 Creating a test file..."
+          echo "Hello from GitHub Actions Self-Hosted Runner! - $(date)" > day42-selfhosted-test.txt
+
+          echo ""
+          echo "✅ File created! Contents:"
+          cat day42-selfhosted-test.txt
+
+          echo ""
+          echo "📂 File exists at:"
+          ls -lh day42-selfhosted-test.txt
